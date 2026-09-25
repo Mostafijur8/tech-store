@@ -3,6 +3,7 @@ import { getProducts } from "@/lib/api";
 
 const ProductsPage = async () => {
   const products = await getProducts();
+ 
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10">
