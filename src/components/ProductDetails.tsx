@@ -45,7 +45,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </p>
           </div>
 
-          <div className="mt-6 space-y-3">
+          <div className="mt-6 space-y-3 lg:flex  items-center gap-4">
             <AddToCartButton product={product} />
 
             <WishlistButton product={product} />

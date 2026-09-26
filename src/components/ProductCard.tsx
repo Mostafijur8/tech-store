@@ -1,7 +1,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import { IProduct } from "@/types/product";
+import WishlistButton from "@/components/WishlistButton";
 
 interface ProductCardProps {
   product: IProduct;
@@ -21,6 +23,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Image Overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
+
+        {/* Wishlist Button */}
+        <WishlistButton product={product} />
       </div>
 
       {/* Product Info */}
@@ -46,7 +51,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
           <span className="text-gray-300">|</span>
 
-          <span className="truncate">{product.stock} available</span>
+          <span className="truncate">
+            {product.stock} available
+          </span>
         </div>
 
         {/* View Details */}

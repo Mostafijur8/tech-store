@@ -10,3 +10,7 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
 }
+
+export interface ICartItem extends IProduct {
+  quantity: number;
+}

@@ -1,11 +1,12 @@
+
 "use client";
 
-import { createContext, useContext, useState } from "react";
-import { IProduct } from "@/types/product";
+import { createContext, useState } from "react";
+import { IProduct, ICartItem } from "@/types/product";
 
 interface ShopContextType {
   wishlist: IProduct[];
-  cart: IProduct[];
+  cart: ICartItem[];
 
   addToWishlist: (product: IProduct) => void;
   removeFromWishlist: (productId: number) => void;
@@ -13,7 +14,11 @@ interface ShopContextType {
 
   addToCart: (product: IProduct) => void;
   removeFromCart: (productId: number) => void;
+  increaseQuantity: (productId: number) => void;
+  decreaseQuantity: (productId: number) => void;
   isInCart: (productId: number) => boolean;
+
+  moveToCart: (product: IProduct) => void;
 }
 
 export const ShopContext = createContext<
@@ -26,7 +31,7 @@ export const ShopProvider = ({
   children: React.ReactNode;
 }) => {
   const [wishlist, setWishlist] = useState<IProduct[]>([]);
-  const [cart, setCart] = useState<IProduct[]>([]);
+  const [cart, setCart] = useState<ICartItem[]>([]);
 
   // ---------------- Wishlist ----------------
 
@@ -54,11 +59,30 @@ export const ShopProvider = ({
 
   const addToCart = (product: IProduct) => {
     setCart((prev) => {
-      if (prev.some((item) => item.id === product.id)) {
-        return prev;
+      const existingProduct = prev.find(
+        (item) => item.id === product.id
+      );
+
+      // Product already exists → increase quantity
+      if (existingProduct) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item
+        );
       }
 
-      return [...prev, product];
+      // New product → quantity 1
+      return [
+        ...prev,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
     });
   };
 
@@ -68,8 +92,46 @@ export const ShopProvider = ({
     );
   };
 
+  const increaseQuantity = (productId: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === productId
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+          : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (productId: number) => {
+    setCart((prev) =>
+      prev
+        .map((item) =>
+          item.id === productId
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+              }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
   const isInCart = (productId: number) => {
     return cart.some((item) => item.id === productId);
+  };
+
+  // ---------------- Move Wishlist → Cart ----------------
+
+  const moveToCart = (product: IProduct) => {
+    // Add product to cart
+    addToCart(product);
+
+    // Remove product from wishlist
+    removeFromWishlist(product.id);
   };
 
   return (
@@ -78,16 +140,24 @@ export const ShopProvider = ({
         wishlist,
         cart,
 
+        // Wishlist
         addToWishlist,
         removeFromWishlist,
         isWishlisted,
 
+        // Cart
         addToCart,
         removeFromCart,
+        increaseQuantity,
+        decreaseQuantity,
         isInCart,
+
+        // Wishlist → Cart
+        moveToCart,
       }}
     >
       {children}
     </ShopContext.Provider>
   );
 };
+
