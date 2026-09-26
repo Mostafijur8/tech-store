@@ -1,12 +1,12 @@
+
 import ProductGrid from "@/components/ProductGrid";
 import { getProducts } from "@/lib/api";
 
 const ProductsPage = async () => {
   const products = await getProducts();
- 
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-10">
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       {/* Page Header */}
       <section className="mb-10">
         <h1 className="text-4xl font-bold">

@@ -13,9 +13,8 @@ const CartPage = () => {
   );
 
   return (
-    <main className="min-h-screen bg-[#f5f5f5] px-3 py-6 sm:px-5 sm:py-8">
-      <div className="mx-auto max-w-6xl">
-
+    <main className="min-h-screen bg-[#f5f5f5] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-5">
           <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
@@ -50,16 +49,13 @@ const CartPage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_300px]">
-
             {/* Cart List */}
             <div className="space-y-3">
-
               {cart.map((product) => (
                 <div
                   key={product.id}
                   className="group flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 shadow-sm transition hover:border-gray-300 hover:shadow-md sm:gap-4 sm:p-4"
                 >
-
                   {/* Product Image */}
                   <Link
                     href={`/products/${product.id}`}
@@ -77,7 +73,6 @@ const CartPage = () => {
 
                   {/* Product Info */}
                   <div className="min-w-0 flex-1">
-
                     <p className="mb-0.5 text-[9px] font-medium uppercase tracking-wide text-gray-400 sm:text-[10px]">
                       {product.category}
                     </p>
@@ -93,25 +88,20 @@ const CartPage = () => {
                       <span className="text-gray-300">|</span>
                       <span>{product.stock} available</span>
                     </div>
-
                   </div>
 
                   {/* Price + Remove */}
                   <div className="flex shrink-0 flex-col items-end">
-
                     <p className="text-sm font-bold text-orange-500 sm:text-base">
                       ${product.price}
                     </p>
 
                     <button
-                      onClick={() =>
-                        removeFromCart(product.id)
-                      }
+                      onClick={() => removeFromCart(product.id)}
                       className="mt-2 rounded-md px-2 py-1 text-[10px] font-medium text-red-500 transition hover:bg-red-50 sm:text-xs"
                     >
                       Remove
                     </button>
-
                   </div>
                 </div>
               ))}
@@ -119,13 +109,13 @@ const CartPage = () => {
 
             {/* Order Summary */}
             <div className="h-fit rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5 lg:sticky lg:top-20">
-
               <h2 className="text-base font-bold text-gray-900">
                 Order Summary
               </h2>
 
               <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                 <span>Products</span>
+
                 <span className="font-medium text-gray-900">
                   {cart.length}
                 </span>
@@ -133,6 +123,7 @@ const CartPage = () => {
 
               <div className="mt-3 flex items-center justify-between text-sm text-gray-500">
                 <span>Subtotal</span>
+
                 <span className="font-medium text-gray-900">
                   ${totalPrice.toFixed(2)}
                 </span>
